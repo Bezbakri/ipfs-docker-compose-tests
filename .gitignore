@@ -16,3 +16,6 @@ venv.bak/
 
 # Docker
 compose/
+
+# Scratch work
+test_files/

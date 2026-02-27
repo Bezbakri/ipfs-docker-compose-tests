@@ -1,0 +1,18 @@
+# Environments
+.env*
+!.env.default
+!.env.ci
+.venv
+#env/
+venv/
+#ENV/
+env.bak/
+venv.bak/
+
+
+.DS_Store
+
+.vscode/
+
+# Docker
+compose/

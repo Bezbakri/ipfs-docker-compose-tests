@@ -24,6 +24,10 @@
 #
 # During the first start, default configurations are created for all peers.
 
+networks:
+  internal:
+    external: false
+
 services:
 
 ##################################################################################
@@ -33,6 +37,8 @@ services:
   ipfs0:
     container_name: ipfs0
     image: ipfs/kubo:release
+    networks:
+      - internal
     ports:
        - "4001:4001" # ipfs swarm - expose if needed/wanted
 #      - "5001:5001" # ipfs api - expose if needed/wanted
@@ -49,6 +55,8 @@ services:
     image: ipfs/ipfs-cluster:latest
     depends_on:
       - ipfs0
+    networks:
+      - internal
     environment:
       CLUSTER_PEERNAME: cluster0
       CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
@@ -75,6 +83,8 @@ services:
   ipfs1:
     container_name: ipfs1
     image: ipfs/kubo:release
+    networks:
+      - internal
     # environment:
     #   - LIBP2P_FORCE_PNET=1
     #   - IPFS_SWARM_KEY_FILE=/data/ipfs/swarm.key
@@ -87,6 +97,8 @@ services:
     image: ipfs/ipfs-cluster:latest
     depends_on:
       - ipfs1
+    networks:
+      - internal
     environment:
       CLUSTER_PEERNAME: cluster1
       CLUSTER_SECRET: ${CLUSTER_SECRET}
@@ -104,6 +116,8 @@ services:
   ipfs2:
     container_name: ipfs2
     image: ipfs/kubo:release
+    networks:
+      - internal
     # environment:
     #   - LIBP2P_FORCE_PNET=1
     #   - IPFS_SWARM_KEY_FILE=/data/ipfs/swarm.key
@@ -116,6 +130,8 @@ services:
     image: ipfs/ipfs-cluster:latest
     depends_on:
       - ipfs2
+    networks:
+      - internal
     environment:
       CLUSTER_PEERNAME: cluster2
       CLUSTER_SECRET: ${CLUSTER_SECRET}
@@ -128,6 +144,11 @@ services:
 # For adding more peers, copy PEER 1 and rename things to ipfs2, cluster2.
 # Keep bootstrapping to cluster0.
   api:
-      build: .
-      stdin_open: true
-      tty: true
+    build: .
+    stdin_open: true
+    tty: true
+    networks:
+      - internal
+    ports:
+      - "8180:80"
+      - "8443:443"

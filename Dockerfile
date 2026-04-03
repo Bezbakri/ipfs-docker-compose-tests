@@ -13,7 +13,7 @@ RUN  go version
 
 RUN git clone https://github.com/ipfs-cluster/ipfs-cluster.git
 
-RUN cd ipfs-cluster && make install
+RUN cd ipfs-cluster && make build && cp ./cmd/ipfs-cluster-ctl/ipfs-cluster-ctl /bin/ipfs-cluster-ctl
 
 RUN pip install ipfs-toolkit
 
